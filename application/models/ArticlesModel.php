@@ -40,5 +40,20 @@ class ArticlesModel extends CI_Model {
             $ret=$query->result_array();
             return $ret[0];
        }
+       public function delete($id)
+       {
+            $this->load->library('session');
+            
+            $fkuser=$this->session->iduser;
+            
+            if(empty($fkuser) || empty($id)) return false;
+            
+            $this->db->set('status',0)
+                     ->where('fkuser',$fkuser)
+                     ->where('idarticle',$id)
+                     ->update('article');
+            //echo $this->db->last_query();
+            return true;
+       }
 }
 ?>

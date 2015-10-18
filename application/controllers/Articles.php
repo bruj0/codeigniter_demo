@@ -62,6 +62,12 @@ class Articles extends CI_Controller {
 		);
 		$this->parser->parse('index',$data_index);		
 	}
+	public function mydelete($id)
+	{
+		$this->load->helper('url');
+		$this->ArticlesModel->delete($id);
+	    redirect('/articles/myview', 'refresh');
+	}
 	public function view()
 	{
 		
