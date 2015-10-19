@@ -15,11 +15,13 @@ This demo uses the following frameworks:
 5. Create a mysql DB and a user with rights to it.
 7. Load the news.sql file to the database.
 6. Edit applications/config/database.php
+```
 'username' => '',
 'password' => '',
 'database' => '',
+```
 8. Configure apache as the following:
-
+```
 <VirtualHost IP:80>
 
 <Directory PATH_TO/codeigniter_demo/public_html>
@@ -30,3 +32,4 @@ This demo uses the following frameworks:
 ServerName localhost
 DocumentRoot PATH_TO/codeigniter_demo/public_html
 </VirtualHost>
+```
