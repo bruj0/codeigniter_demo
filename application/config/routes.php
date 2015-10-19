@@ -51,6 +51,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'articles/index';
 $route['articles/delete/(:any)'] = 'articles/mydelete/$1';
+$route['articles/new']       = 'articles/submit';
+$route['articles/upload']    = 'articles/upload';
 $route['users/registration'] = 'users/registration';
 $route['users/login']        = 'users/login';
 $route['users/logout']       = 'users/logout';

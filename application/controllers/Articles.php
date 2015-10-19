@@ -68,9 +68,97 @@ class Articles extends CI_Controller {
 		$this->ArticlesModel->delete($id);
 	    redirect('/articles/myview', 'refresh');
 	}
-	public function view()
+	public function submit($file=array(),$uploading=false)
 	{
+		$this->load->library('parser');
+		$this->load->library('session');
 		
+		if($this->session->iduser)
+			$navbar= $this->parser->parse('index_loggedin',array('username' => $this->session->username),true);
+		else
+		{
+		   $this->load->helper('url');
+		   $this->session->sess_destroy();
+		   redirect('/', 'refresh');			
+		}
+		
+		if($this->input->method()=='post')
+		{
+			if($uploading==true)
+			{
+				$data = array(
+					'article_title' 	=> $this->input->post('article_title'),
+					'article_summary' 	=> $this->input->post('article_summary'),
+					'article_content'	=> $this->input->post('article_content'),
+				);				
+				if(!isset($file['error']))
+				{
+					$data['error']		= '';
+					$data['photo'] 		= '/assets/img/'.$file['file_name'];
+					$data['photo_img']  = "<img src='{$data['photo']}' {$file['image_size_str']}>";
+				}
+				else
+				{
+					$data['error']=$file['error'];
+					$data['photo']='';
+					$data['photo_img']='';
+				}
+			}
+			else
+			{
+				$article = array(
+					'title' 	=> $this->input->post('title'),
+					'summary' 	=> $this->input->post('summary'),
+					'text' 		=> $this->input->post('text'),
+					'photo' 	=> $this->input->post('photo')
+				);
+				$this->ArticlesModel->newArticle($article);
+				$this->load->helper('url');
+				redirect('/articles/myview', 'refresh');				
+			}
+		}
+		else
+		{
+			$data=array();
+			$data['error']='';
+			$data['photo']='';
+			$data['photo_img']='';
+			$data['article_title']='';
+			$data['article_summary']='';
+			$data['article_content']='';
+			
+		}
+		
+		$data_index = array(
+			'loggin_nav_var' 	=> $navbar,
+			'login_modal'	 	=> $this->parser->parse('index_login_modal',array(),true),
+			'content'			=> $this->parser->parse('articles_new',$data,true)
+		);
+		$this->parser->parse('index',$data_index);	
+	}
+	public function upload()
+	{
+		$this->load->library('session');
+		if(!($this->session->iduser))
+		{
+			echo "iduser empty";
+			return;
+		}
+		
+		$config['upload_path'] = FCPATH.'/assets/img/';
+		$config['allowed_types'] = 'gif|jpg|png';
+		$config['max_size']     = '900';
+		$config['max_width'] = '1024';
+		$config['max_height'] = '768';
+		
+		$this->load->library('upload', $config);
+
+		if ( ! $this->upload->do_upload('file'))
+				$data = array('error' => $this->upload->display_errors());
+		else
+				$data = $this->upload->data();
+
+		$this->submit($data,true);
 	}
 	
 	public function get_articles($iduser=false)

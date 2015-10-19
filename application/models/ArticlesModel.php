@@ -13,6 +13,7 @@ class ArticlesModel extends CI_Model {
                                   ->from('article')
                                   ->join('users','users.iduser=article.fkuser')
                                   ->where('article.status',1)
+                                  ->order_by('posted_ts', 'DESC')
                                   ->limit('10')
                                   ->get();
             }
@@ -23,6 +24,7 @@ class ArticlesModel extends CI_Model {
                                   ->join('users','users.iduser=article.fkuser')
                                   ->where('article.status',1)
                                   ->where('fkuser',$iduser)
+                                  ->order_by('posted_ts', 'DESC')
                                   ->limit('10')
                                   ->get();
             }
@@ -54,6 +56,25 @@ class ArticlesModel extends CI_Model {
                      ->update('article');
             //echo $this->db->last_query();
             return true;
+       }
+       public function newArticle($article)
+       {
+            $this->load->library('session');
+            $fkuser=$this->session->iduser;
+            
+            if(empty($fkuser)) return false;
+            
+            $article['fkuser']=$fkuser;
+            $article['posted_ts']=time();
+            $article['type']=1;
+            $article['status']=1;
+            
+            if(!$this->db->insert('article', $article))
+            {
+                echo $this->db->last_query(); 
+                echo $this->db->error();
+            }
+            
        }
 }
 ?>
