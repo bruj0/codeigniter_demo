@@ -12,13 +12,19 @@ This demo uses the following frameworks:
 2. $ git clone https://github.com/bruj0/codeigniter_demo
 3. $ cd codeigniter_demo/
 4. $ composer install
-5. Create a mysql DB and a user with rights to it.
+5. Create a mysql DB and a user with rights to it:
+```sql
+CREATE DATABASE news;
+CREATE USER 'newsuser'@'localhost' IDENTIFIED BY 'password';
+GRANT ALL PRIVILEGES ON news.* TO 'newsuser'@'localhost';
+FLUSH PRIVILEGES;
+```
 7. Load the news.sql file to the database.
 6. Edit applications/config/database.php
 ```
-'username' => '',
-'password' => '',
-'database' => '',
+'username' => 'newsuser',
+'password' => 'password',
+'database' => 'news',
 ```
 8. Configure apache as the following:
 ```
