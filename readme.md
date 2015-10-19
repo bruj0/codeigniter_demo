@@ -8,25 +8,25 @@ This demo uses the following frameworks:
 
 ### Installation
 
-1. $ curl -sS https://getcomposer.org/installer | php (or any form from https://getcomposer.org/doc/00-intro.md )
-2. $ git clone https://github.com/bruj0/codeigniter_demo
-3. $ cd codeigniter_demo/
-4. $ composer install
-5. Create a mysql DB and a user with rights to it:
+* $ curl -sS https://getcomposer.org/installer | php (or any form from https://getcomposer.org/doc/00-intro.md )
+* $ git clone https://github.com/bruj0/codeigniter_demo
+* $ cd codeigniter_demo/
+* $ composer install
+* Create a mysql DB and a user with rights to it:
 ```sql
 CREATE DATABASE news;
 CREATE USER 'newsuser'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON news.* TO 'newsuser'@'localhost';
 FLUSH PRIVILEGES;
 ```
-7. Load the news.sql file to the database.
-6. Edit applications/config/database.php
+* Load the news.sql file to the database.
+* Edit applications/config/database.php
 ```
 'username' => 'newsuser',
 'password' => 'password',
 'database' => 'news',
 ```
-8. Configure apache as the following:
+* Configure apache as the following:
 ```
 <VirtualHost IP:80>
 
