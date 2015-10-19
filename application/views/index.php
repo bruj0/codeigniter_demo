@@ -7,6 +7,7 @@
 <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
 <link href="/assets/css/login_modal.css" rel="stylesheet">
 <link href="/assets/css/site.css" rel="stylesheet">
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
 </head>
 <body>
  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>

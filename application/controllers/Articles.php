@@ -160,7 +160,65 @@ class Articles extends CI_Controller {
 
 		$this->submit($data,true);
 	}
-	
+	public function view($id,$exporting=false)
+	{
+		if(empty($id))
+		{
+				$this->load->helper('url');
+				redirect('/', 'refresh');				
+		}
+		
+		$this->load->library('parser');
+		$this->load->library('session');
+		
+		if($this->session->iduser)
+			$navbar= $this->parser->parse('index_loggedin',array('username' => $this->session->username),true);
+		else
+			$navbar=$this->parser->parse('index_notloggedin',array(),true);
+		
+		$article=$this->ArticlesModel->get_article($id);
+		$article['posted_ts']=date('r',$article['posted_ts']);
+		if($exporting==false)
+			$article['http_host']='http://'.$_SERVER['HTTP_HOST'];
+		else
+		{
+			$article['http_host']='';
+			$article['photo']='data:image/png;base64,'.base64_encode(file_get_contents(FCPATH.$article['photo']));
+		}
+		
+		$data_index = array(
+			'loggin_nav_var' 	=> $navbar,
+			'login_modal'	 	=> $this->parser->parse('index_login_modal',array(),true),
+			'content'			=> $this->parser->parse('articles_view.php',$article,true)
+		);
+		return $this->parser->parse('index',$data_index,$exporting);
+	}
+	public function export($id)
+	{
+		if(empty($id))
+		{
+				$this->load->helper('url');
+				redirect('/', 'refresh');				
+		}
+		
+		$filename=time();
+		$pdfFilePath = FCPATH."/assets/downloads/$filename.pdf";
+		if (file_exists($pdfFilePath) == FALSE)
+		{
+			ini_set('memory_limit','32M'); 
+			$html = $this->view($id,true);
+			$pdf = new mPDF();
+			$pdf->SetFooter($_SERVER['HTTP_HOST'].'|{PAGENO}|'.date(DATE_RFC822)); // 
+			$pdf->WriteHTML($html); 
+			$pdf->Output($pdfFilePath, 'F');
+		}
+		$this->load->helper('download');
+		
+		$data = file_get_contents($pdfFilePath); 
+		$name = 'article_'.$id.'.pdf';
+		
+		force_download($name, $data);	
+	}
 	public function get_articles($iduser=false)
 	{
 		$ret=$this->ArticlesModel->get_last_ten_entries($iduser);
