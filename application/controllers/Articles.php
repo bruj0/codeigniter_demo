@@ -32,7 +32,8 @@ class Articles extends CI_Controller {
 		$data_index = array(
 			'loggin_nav_var' 	=> $navbar,
 			'login_modal'	 	=> $this->parser->parse('index_login_modal',array(),true),
-			'content'			=> $this->parser->parse('index_article_listing',$data,true)
+			'content'			=> $this->parser->parse('index_article_listing',$data,true),
+			'http_host'			=> $_SERVER['HTTP_HOST']
 		);
 		$this->parser->parse('index',$data_index);
 	}
@@ -218,6 +219,22 @@ class Articles extends CI_Controller {
 		$name = 'article_'.$id.'.pdf';
 		
 		force_download($name, $data);	
+	}
+	public function rss()
+	{
+        $this->load->helper('xml');
+        $this->load->helper('text');
+		
+		
+        $data['feed_name'] = 'News Stand Demo';
+        $data['encoding'] = 'utf-8';
+        $data['feed_url'] = 'http://'.$_SERVER['HTTP_HOST'].'/articles/rss';
+        $data['page_description'] = 'A News stand in codeigniter';
+        $data['page_language'] = 'en-en';
+        $data['creator_email'] = '0bruj0@gmail.com';
+        $data['posts'] = $this->get_articles(); 
+        header("Content-Type: application/rss+xml");
+        $this->load->view('articles_rss', $data); 
 	}
 	public function get_articles($iduser=false)
 	{

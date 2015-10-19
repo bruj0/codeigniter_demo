@@ -8,6 +8,8 @@
 <link href="/assets/css/login_modal.css" rel="stylesheet">
 <link href="/assets/css/site.css" rel="stylesheet">
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css" rel="stylesheet">
+<link rel="alternate" type="application/rss+xml" title="News Stand Feed" href="http://{http_host}/articles/rss" />
+
 </head>
 <body>
  <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -32,6 +34,7 @@
                         <div id="navbar" class="navbar-collapse collapse">
                             <ul class="nav navbar-nav">
                                 <li class="active"><a href="/" class="">Home</a></li>
+                                <li class="active"><a href="/articles/rss" class="">RSS Feed</a></li>
                             </ul>
                         {loggin_nav_var}
                         </div>
