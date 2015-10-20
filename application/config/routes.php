@@ -59,6 +59,6 @@ $route['articles/rss']       = 'articles/rss';
 $route['users/registration'] = 'users/registration';
 $route['users/login']        = 'users/login';
 $route['users/logout']       = 'users/logout';
-$route['users/verification/(:any)'] = 'users/verification/$hash';
+$route['users/verification/(:any)'] = 'users/verification/$1';
 $route['404_override']       = '';
 $route['translate_uri_dashes'] = FALSE;

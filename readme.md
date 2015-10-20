@@ -7,6 +7,7 @@ This demo uses the following frameworks:
 * Bootstrap (http://getbootstrap.com/)
 * PHP Mailer (https://github.com/PHPMailer/PHPMailer)
 * mPDF (http://www.mpdf1.com/mpdf/index.php)
+
 ### Installation
 
 * $ curl -sS https://getcomposer.org/installer | php (or any form from https://getcomposer.org/doc/00-intro.md )
